@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>International Recovery Systems (IRS) - Performance Scorecard Portal</title>
+  <style>
+    :root {
+      --primary: #0052cc;
+      --primary-hover: #0747a6;
+      --navy: #003366;
+      --bg: #f4f6f8;
+      --card-bg: #ffffff;
+      --text: #172b4d;
+      --muted: #6b778c;
+      --border: #dfe1e6;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 24px 16px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      flex: 1;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    /* Modern SaaS Glassmorphism Masthead */
+    .header-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(203, 213, 225, 0.7);
+      border-radius: 12px;
+      padding: 16px 22px;
+      box-shadow: 0 4px 14px rgba(0, 51, 102, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .header-logo {
+      width: 76px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      transition: transform 0.25s ease;
+    }
+    .header-logo:hover {
+      transform: scale(1.03);
+    }
+    .header-divider {
+      width: 1px;
+      height: 44px;
+      background: #e2e8f0;
+    }
+    .header-contact-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .header-contact-line {
+      font-size: 11.5px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.4;
+    }
+    .header-contact-line svg {
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: #64748b;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      padding: 6px 12px 6px 8px;
+      border-radius: 30px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 4px rgba(0, 51, 102, 0.2);
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .user-role-pill {
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #16a34a;
+      display: inline-block;
+    }
+    .btn-signout {
+      background: transparent;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-signout:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    /* Login Masthead & Styles */
+    .login-logo-container {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .login-logo {
+      width: 140px;
+      height: auto;
+      display: inline-block;
+      object-fit: contain;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-secondary {
+      background: #505f79;
+    }
+    .btn-secondary:hover { background: #344563; }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Primary Tier 1 Deck Navigation */
+    .deck-nav-wrapper {
+      margin-bottom: 16px;
+    }
+    .deck-nav {
+      display: inline-flex;
+      background: #e2e8f0;
+      padding: 6px;
+      border-radius: 30px;
+      gap: 8px;
+      border: 1px solid #cbd5e1;
+    }
+    .deck-tab {
+      padding: 10px 24px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #475569;
+      cursor: pointer;
+      border-radius: 24px;
+      transition: all 0.2s ease-in-out;
+      user-select: none;
+    }
+    .deck-tab:hover {
+      color: var(--navy);
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .deck-tab.active {
+      color: #ffffff;
+      background: var(--navy);
+      box-shadow: 0 2px 6px rgba(0, 51, 102, 0.35);
+    }
+
+    /* Secondary Sub-Deck Navigation */
+    .subdeck-nav-wrapper {
+      margin-bottom: 20px;
+    }
+    .subdeck-nav {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 20px;
+      gap: 6px;
+      border: 1px solid #e2e8f0;
+    }
+    .subdeck-tab {
+      padding: 6px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 16px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .subdeck-tab:hover {
+      color: var(--primary);
+    }
+    .subdeck-tab.active {
+      color: #ffffff;
+      background: var(--primary);
+      box-shadow: 0 1px 4px rgba(0, 82, 204, 0.25);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      background: #f8f9fa;
+      padding: 16px 20px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 220px;
+      flex: 1;
+    }
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: #fff;
+      font-size: 14px;
+      color: var(--text);
+      box-sizing: border-box;
+      outline: none;
+    }
+    select:focus {
+      border-color: var(--primary);
+    }
+    
+    /* Dedicated Notice Banner Between Filter and Reports */
+    .filter-notice-banner {
+      padding: 11px 16px;
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .file-item:last-child {
+      border-bottom: none;
+    }
+    .file-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .file-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-right: 8px;
+    }
+    .badge-pdf { background: #fee2e2; color: #dc2626; }
+    .badge-html { background: #e0f2fe; color: #0284c7; }
+    
+    .comment-card {
+      background: #f8f9fa;
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      margin-top: 10px;
+      border-radius: 0 4px 4px 0;
+    }
+    .comment-card.client-author {
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+    }
+    .hidden { display: none !important; }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: #ebecf0;
+      color: #42526e;
+    }
+    
+    /* Login Status & Spinner */
+    .status-msg {
+      font-size: 13.5px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      min-height: 22px;
+    }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #cbd5e1;
+      border-top: 2px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .site-footer {
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 36px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Login Panel -->
+    <div id="loginSection" class="card">
+      <div class="login-logo-container">
+        <img class="login-logo" src="https://lh3.googleusercontent.com/d/1w0dT6Jyu2M5ff_wj3qqNuOl0IqyBYSXL" alt="International Recovery Systems Logo">
+      </div>
+      <div style="text-align: center; margin-bottom: 18px;">
+        <h2 style="margin: 0 0 4px 0; color: var(--navy); font-size: 21px; font-weight: 700;">
+          International Recovery Systems (IRS)
+        </h2>
+        <div style="color: var(--muted); font-size: 14.5px; font-weight: 600; letter-spacing: 0.3px;">
+          Performance Scorecard Portal
+        </div>
+      </div>
+      <p style="color:var(--muted); margin-bottom: 20px; text-align:center; font-size: 13px;">Please enter your credentials to view your reports.</p>
+      
+      <label for="username"><strong>Username</strong></label>
+      <input type="text" id="username" placeholder="Username" autocomplete="username" onkeydown="handleEnter(event)">
+      
+      <label for="password"><strong>Password</strong></label>
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password" onkeydown="handleEnter(event)">
+      
+      <button class="btn" id="loginBtn" onclick="login()">Sign In</button>
+      <div id="loginStatus" class="status-msg"></div>
+    </div>
+
+    <!-- Portal Dashboard -->
+    <div id="portalSection" class="hidden">
+      
+      <!-- Modern SaaS Glassmorphic Masthead -->
+      <header class="header-card">
+        <div class="header-left">
+          <img class="header-logo" src="https://lh3.googleusercontent.com/d/1w0dT6Jyu2M5ff_wj3qqNuOl0IqyBYSXL" alt="IRS Logo">
+          <div class="header-divider"></div>
+          <div class="header-contact-block">
+            <div class="header-contact-line">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>415 Mcfarlan Road, Suite 218, Kennett Square, PA 19348</span>
+            </div>
+            <div class="header-contact-line">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Phone: (610) 534-0404 &nbsp;|&nbsp; Fax: (267) 350-8974</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="user-profile-badge">
+            <div class="user-avatar" id="userAvatar">--</div>
+            <div class="user-info">
+              <span class="user-name" id="userDisplayName">User Name</span>
+              <span class="user-role-pill">
+                <span class="status-dot"></span>
+                <span id="userRoleText">ADMIN</span>
+              </span>
+            </div>
+          </div>
+          <button class="btn-signout" onclick="logout()">Sign Out</button>
+        </div>
+      </header>
+
+      <!-- Tier 1 Decks (Admin Only) -->
+      <div id="adminDeckNav" class="deck-nav-wrapper hidden">
+        <div class="deck-nav">
+          <div class="deck-tab active" id="deckTabClient" onclick="switchDeck('client')">Client Scorecards</div>
+          <div class="deck-tab" id="deckTabInternal" onclick="switchDeck('internal')">Internal & Operations</div>
+        </div>
+      </div>
+
+      <!-- DECK 1: CLIENT SCORECARDS -->
+      <div id="deckContentClient">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label for="filterMonth">As of Month-Year</label>
+            <select id="filterMonth" onchange="renderFilteredScorecards()">
+              <option value="ALL">All Available Cycles</option>
+            </select>
+          </div>
+
+          <div class="filter-group" id="clientFilterGroup">
+            <label for="filterClient">Client Name</label>
+            <select id="filterClient" onchange="renderFilteredScorecards()">
+              <option value="ALL">All Clients</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Informational banner moved here: after filters, before scorecards -->
+        <div id="commentNoticeBanner"></div>
+
+        <div id="loadingIndicatorScorecards" class="card hidden" style="text-align: center; color: var(--muted);">
+          Loading scorecards and commentary...
+        </div>
+
+        <div id="scorecardsContainer"></div>
+      </div>
+
+      <!-- DECK 2: OPERATIONS & INTERNAL (ADMIN ONLY) -->
+      <div id="deckContentInternal" class="hidden">
+        
+        <!-- Sub-Deck Selector: Weekly vs IRS Scorecards -->
+        <div class="subdeck-nav-wrapper">
+          <div class="subdeck-nav">
+            <div class="subdeck-tab active" id="subdeckTabWeekly" onclick="switchSubDeck('weekly')">Weekly Updates</div>
+            <div class="subdeck-tab" id="subdeckTabIrs" onclick="switchSubDeck('irs')">IRS Scorecards</div>
+          </div>
+        </div>
+
+        <!-- SUB-DECK VIEW 1: WEEKLY UPDATES -->
+        <div id="subdeckContentWeekly">
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label for="filterWeeklyWeek">Filter by Week Date</label>
+              <select id="filterWeeklyWeek" onchange="renderFilteredWeekly()">
+                <option value="ALL">All Weekly Updates (All Time)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="loadingIndicatorWeekly" class="card hidden" style="text-align: center; color: var(--muted);">
+            Loading weekly updates...
+          </div>
+
+          <div id="weeklyContainer"></div>
+        </div>
+
+        <!-- SUB-DECK VIEW 2: IRS SCORECARDS -->
+        <div id="subdeckContentIrs" class="hidden">
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label for="filterIrsCycle">As of Month-Year</label>
+              <select id="filterIrsCycle" onchange="renderFilteredIrsScorecards()">
+                <option value="ALL">All Available Cycles (All Time)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="loadingIndicatorIrs" class="card hidden" style="text-align: center; color: var(--muted);">
+            Loading IRS internal scorecards...
+          </div>
+
+          <div id="irsContainer"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Contact Info Footer -->
+    <footer class="site-footer">
+      <div>415 Mcfarlan Road, Suite 218, Kennett Square, PA 19348</div>
+      <div>Phone: (610) 534-0404 | Fax: (267) 350-8974</div>
+    </footer>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuxKml3zqC_8_kZzN_0cgGtkQdPsfK5RLBX_1PWUA6GiYM7Oq5-cPueHzDnqhieeU9Dg/exec";
+    const LIVE_LOGO_URL = "https://lh3.googleusercontent.com/d/1w0dT6Jyu2M5ff_wj3qqNuOl0IqyBYSXL";
+    let session = { token: null, role: null, authorName: null };
+    let rawScorecardData = [];
+    let rawWeeklyData = [];
+    let rawIrsData = [];
+    let activeDeck = 'client';
+    let activeSubDeck = 'weekly';
+
+    function handleEnter(e) {
+      if (e.key === "Enter" || e.keyCode === 13) {
+        e.preventDefault();
+        login();
+      }
+    }
+
+    function formatAsOfMonthYear(str) {
+      if (!str || str === "ALL" || str === "General") return str;
+      const parts = str.split("-");
+      if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+        const mm = parseInt(parts[0], 10);
+        const yy = parseInt(parts[1], 10);
+        const monthNames = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+        if (mm >= 1 && mm <= 12) {
+          const fullYear = yy < 100 ? 2000 + yy : yy;
+          return `As of ${monthNames[mm - 1]} ${fullYear}`;
+        }
+      }
+      return str.startsWith("As of ") ? str : `As of ${str}`;
+    }
+
+    function getInitials(name) {
+      if (!name) return "US";
+      let clean = name.replace(/^Dr\.\s*/i, '').trim();
+      clean = clean.replace(/\b(LLC|INC|CORP|CO|LTD)\b/gi, '').trim();
+
+      if (/^RDN\s+/i.test(clean)) {
+        const withoutRdn = clean.replace(/^RDN\s+/i, '').trim();
+        const parts = withoutRdn.split(/\s+/);
+        if (parts.length >= 2) {
+          return (parts[0][0] + parts[1][0]).toUpperCase();
+        }
+        return withoutRdn.slice(0, 2).toUpperCase();
+      }
+
+      const parts = clean.split(/\s+/);
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+      return clean.slice(0, 2).toUpperCase();
+    }
+
+    async function login() {
+      const u = document.getElementById("username").value.trim();
+      const p = document.getElementById("password").value;
+      const status = document.getElementById("loginStatus");
+      const btn = document.getElementById("loginBtn");
+
+      if (!u || !p) {
+        status.style.color = "red";
+        status.innerHTML = "Please enter both username and password.";
+        return;
+      }
+
+      btn.disabled = true;
+      status.style.color = "var(--muted)";
+      status.innerHTML = `<span class="spinner"></span><span>Authenticating...</span>`;
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "login", username: u, password: p })
+        }).then(r => r.json());
+
+        if (res.success) {
+          session = { 
+            token: res.token, 
+            role: res.role, 
+            authorName: res.authorName 
+          };
+          document.getElementById("loginSection").classList.add("hidden");
+          document.getElementById("portalSection").classList.remove("hidden");
+          
+          document.getElementById("userDisplayName").textContent = res.authorName;
+          document.getElementById("userRoleText").textContent = res.role.toUpperCase();
+          document.getElementById("userAvatar").textContent = getInitials(res.authorName);
+
+          if (session.role === "admin") {
+            document.getElementById("adminDeckNav").classList.remove("hidden");
+            document.getElementById("clientFilterGroup").classList.remove("hidden");
+          } else {
+            document.getElementById("adminDeckNav").classList.add("hidden");
+            document.getElementById("clientFilterGroup").classList.add("hidden");
+          }
+
+          loadScorecards();
+          if (session.role === "admin") {
+            loadWeeklyUpdates();
+            loadIrsScorecards();
+          }
+        } else {
+          status.style.color = "red";
+          status.innerHTML = res.error || "Authentication failed. Please verify credentials.";
+        }
+      } catch (err) {
+        status.style.color = "red";
+        status.innerHTML = "Connection error: " + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function switchDeck(deck) {
+      activeDeck = deck;
+      const tabClient = document.getElementById("deckTabClient");
+      const tabInternal = document.getElementById("deckTabInternal");
+      const contentClient = document.getElementById("deckContentClient");
+      const contentInternal = document.getElementById("deckContentInternal");
+
+      tabClient.classList.toggle("active", deck === 'client');
+      tabInternal.classList.toggle("active", deck === 'internal');
+
+      contentClient.classList.toggle("hidden", deck !== 'client');
+      contentInternal.classList.toggle("hidden", deck !== 'internal');
+    }
+
+    function switchSubDeck(sub) {
+      activeSubDeck = sub;
+      const tabWeekly = document.getElementById("subdeckTabWeekly");
+      const tabIrs = document.getElementById("subdeckTabIrs");
+      const contentWeekly = document.getElementById("subdeckContentWeekly");
+      const contentIrs = document.getElementById("subdeckContentIrs");
+
+      tabWeekly.classList.toggle("active", sub === 'weekly');
+      tabIrs.classList.toggle("active", sub === 'irs');
+
+      contentWeekly.classList.toggle("hidden", sub !== 'weekly');
+      contentIrs.classList.toggle("hidden", sub !== 'irs');
+    }
+
+    /* --- DECK 1: CLIENT SCORECARD LOGIC --- */
+    async function loadScorecards(preservedMonth = null, preservedClient = null) {
+      const loading = document.getElementById("loadingIndicatorScorecards");
+      loading.classList.remove("hidden");
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "getScorecards", sessionToken: session.token })
+        }).then(r => r.json());
+
+        loading.classList.add("hidden");
+
+        if (!res.success) {
+          document.getElementById("scorecardsContainer").innerHTML = `<div class="card" style="color:red;">Error: ${res.error}</div>`;
+          return;
+        }
+
+        rawScorecardData = res.data || [];
+        populateScorecardFilters();
+
+        if (preservedMonth) {
+          document.getElementById("filterMonth").value = preservedMonth;
+        } else if (rawScorecardData.length > 0) {
+          document.getElementById("filterMonth").value = rawScorecardData[0].month;
+        }
+
+        if (preservedClient && session.role === "admin") {
+          document.getElementById("filterClient").value = preservedClient;
+        }
+
+        renderFilteredScorecards();
+      } catch (err) {
+        loading.classList.add("hidden");
+        document.getElementById("scorecardsContainer").innerHTML = `<div class="card" style="color:red;">Failed to retrieve records: ${err.message}</div>`;
+      }
+    }
+
+    function cleanClientName(fileName) {
+      return fileName.replace(/\.(html|pdf)$/i, '').trim();
+    }
+
+    function populateScorecardFilters() {
+      const monthSelect = document.getElementById("filterMonth");
+      const prevMonth = monthSelect.value;
+      monthSelect.innerHTML = '<option value="ALL">All Available Cycles</option>';
+      const months = [...new Set(rawScorecardData.map(m => m.month))];
+      months.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m;
+        opt.textContent = formatAsOfMonthYear(m);
+        monthSelect.appendChild(opt);
+      });
+      if (prevMonth && Array.from(monthSelect.options).some(o => o.value === prevMonth)) {
+        monthSelect.value = prevMonth;
+      }
+
+      if (session.role === "admin") {
+        const clientSelect = document.getElementById("filterClient");
+        const prevClient = clientSelect.value;
+        clientSelect.innerHTML = '<option value="ALL">All Clients</option>';
+        const clientSet = new Set();
+        rawScorecardData.forEach(m => {
+          (m.files || []).forEach(f => {
+            clientSet.add(cleanClientName(f.name));
+          });
+        });
+        Array.from(clientSet).sort().forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c;
+          opt.textContent = c;
+          clientSelect.appendChild(opt);
+        });
+        if (prevClient && Array.from(clientSelect.options).some(o => o.value === prevClient)) {
+          clientSelect.value = prevClient;
+        }
+      }
+    }
+
+    function renderFilteredScorecards() {
+      const container = document.getElementById("scorecardsContainer");
+      const noticeBanner = document.getElementById("commentNoticeBanner");
+      container.innerHTML = "";
+
+      const selectedMonth = document.getElementById("filterMonth").value;
+      const selectedClient = (session.role === "admin") 
+        ? document.getElementById("filterClient").value 
+        : session.authorName;
+
+      let filteredMonths = rawScorecardData.filter(m => {
+        return selectedMonth === "ALL" || m.month === selectedMonth;
+      });
+
+      let totalFilesRendered = 0;
+      const canComment = (selectedMonth !== "ALL") && (selectedClient !== "ALL");
+
+      // Place the notice banner right after the filter bar, before reports
+      if (session.role === 'admin' && !canComment) {
+        noticeBanner.innerHTML = `
+          <div class="filter-notice-banner">
+            Select both a specific <strong>Month / Year Cycle</strong> and a specific <strong>Client Name</strong> above to leave or reply to comments.
+          </div>
+        `;
+      } else {
+        noticeBanner.innerHTML = "";
+      }
+
+      filteredMonths.forEach(m => {
+        const filteredFiles = (m.files || []).filter(f => {
+          if (session.role === "admin" && selectedClient === "ALL") return true;
+          const baseName = cleanClientName(f.name).toLowerCase();
+          const target = selectedClient.toLowerCase();
+          return baseName.includes(target) || target.includes(baseName);
+        });
+
+        const filteredComments = (m.comments || []).filter(c => {
+          if (session.role === "admin" && selectedClient === "ALL") return true;
+          if (!c.clientName) return false;
+          const cName = String(c.clientName).toLowerCase();
+          const target = selectedClient.toLowerCase();
+          return cName.includes(target) || target.includes(cName);
+        });
+
+        if (filteredFiles.length === 0 && filteredComments.length === 0) return;
+
+        totalFilesRendered += filteredFiles.length;
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3 style="margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 8px;">${formatAsOfMonthYear(m.month)}</h3>
+          <div>
+            ${filteredFiles.map(f => {
+              const isPdf = f.name.toLowerCase().endsWith('.pdf');
+              return `
+                <div class="file-item">
+                  <span>
+                    <span class="file-badge ${isPdf ? 'badge-pdf' : 'badge-html'}">${isPdf ? 'PDF' : 'HTML'}</span>
+                    <strong>${f.name}</strong>
+                  </span>
+                  <div class="file-actions">
+                    <button class="btn btn-secondary" onclick="viewFile('${f.id}', '${f.mimeType}', '${f.name}')">View</button>
+                    <button class="btn" onclick="downloadFile('${f.id}', '${f.name}')">Download</button>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+          
+          <h4 style="margin: 24px 0 8px 0;">IRS Team Comment</h4>
+          <div>
+            ${filteredComments.length > 0 ? filteredComments.map(c => {
+              const isClientComment = (c.role === 'client');
+              return `
+                <div class="comment-card ${isClientComment ? 'client-author' : ''}">
+                  <div>
+                    <strong>${c.author}</strong>
+                    <span class="badge" style="margin-left: 6px; ${isClientComment ? 'background:#dcfce7; color:#15803d;' : ''}">
+                      ${isClientComment ? 'Client Response' : (session.role === 'admin' ? c.clientName : 'IRS Advisor')}
+                    </span>
+                    <small style="color:var(--muted); margin-left: 6px;">(${c.date})</small>
+                  </div>
+                  <div style="margin-top:4px;">${c.text}</div>
+                </div>
+              `;
+            }).join("") : '<p style="color:var(--muted); font-size:14px;">No commentary added yet for this month.</p>'}
+          </div>
+
+          ${canComment ? `
+            <div style="margin-top: 20px; background: #fafbfc; padding: 16px; border-radius: 6px; border: 1px solid var(--border);">
+              <div style="margin-bottom: 8px; font-size: 13px;">
+                <strong>Posting as:</strong> <span class="badge" style="background:#e0e8f9; color:#0052cc;">${session.authorName}</span>${session.role === 'admin' ? `<span style="color:var(--muted); margin-left:8px;">(Recipient: <strong>${selectedClient}</strong>)</span>` : ''}
+              </div>
+              <textarea id="comment-input-${m.month}" rows="2" placeholder="${session.role === 'admin' ? 'Write remarks visible to ' + selectedClient + '...' : 'Write your response or inquiry back to the IRS team...'}"></textarea>
+              <button class="btn" onclick="submitComment('${m.month}', '${selectedClient}')">${session.role === 'admin' ? 'Post Comment' : 'Send Response'}</button>
+            </div>
+          ` : ''}
+        `;
+        container.appendChild(card);
+      });
+
+      if (totalFilesRendered === 0) {
+        container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted);">No matching scorecards found for the selected filters.</div>`;
+      }
+    }
+
+    /* --- DECK 2: SUB-DECK 1 (WEEKLY UPDATES) --- */
+    async function loadWeeklyUpdates() {
+      const loading = document.getElementById("loadingIndicatorWeekly");
+      loading.classList.remove("hidden");
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "getWeeklyUpdates", sessionToken: session.token })
+        }).then(r => r.json());
+
+        loading.classList.add("hidden");
+
+        if (!res.success) {
+          document.getElementById("weeklyContainer").innerHTML = `<div class="card" style="color:red;">Error: ${res.error}</div>`;
+          return;
+        }
+
+        rawWeeklyData = res.files || [];
+        populateWeeklyFilters();
+        renderFilteredWeekly();
+      } catch (err) {
+        loading.classList.add("hidden");
+        document.getElementById("weeklyContainer").innerHTML = `<div class="card" style="color:red;">Failed to retrieve weekly updates: ${err.message}</div>`;
+      }
+    }
+
+    function extractWeekDate(fileName) {
+      const match = fileName.match(/(\d{2}-\d{2}-\d{2})/);
+      return match ? match[1] : "General";
+    }
+
+    function populateWeeklyFilters() {
+      const select = document.getElementById("filterWeeklyWeek");
+      select.innerHTML = '<option value="ALL">All Weekly Updates (All Time)</option>';
+      const dates = [...new Set(rawWeeklyData.map(f => extractWeekDate(f.name)))];
+      dates.forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d;
+        opt.textContent = `Week Ending ${d}`;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderFilteredWeekly() {
+      const container = document.getElementById("weeklyContainer");
+      container.innerHTML = "";
+
+      const selectedDate = document.getElementById("filterWeeklyWeek").value;
+      let filtered = rawWeeklyData;
+
+      if (selectedDate !== "ALL") {
+        filtered = rawWeeklyData.filter(f => extractWeekDate(f.name) === selectedDate);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted);">No weekly updates found.</div>`;
+        return;
+      }
+
+      const grouped = {};
+      filtered.forEach(f => {
+        const d = extractWeekDate(f.name);
+        if (!grouped[d]) grouped[d] = [];
+        grouped[d].push(f);
+      });
+
+      let sortedWeekKeys = Object.keys(grouped).sort((a,b) => b.localeCompare(a));
+      
+      if (selectedDate === "ALL") {
+        sortedWeekKeys = sortedWeekKeys.slice(0, 12);
+      }
+
+      sortedWeekKeys.forEach(weekKey => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3 style="margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 8px;">
+            IRS Weekly Operations Report — Week Ending ${weekKey}
+          </h3>
+          <div>
+            ${grouped[weekKey].map(f => {
+              const isPdf = f.name.toLowerCase().endsWith('.pdf');
+              return `
+                <div class="file-item">
+                  <span>
+                    <span class="file-badge ${isPdf ? 'badge-pdf' : 'badge-html'}">${isPdf ? 'PDF' : 'HTML'}</span>
+                    <strong>${f.name}</strong>
+                  </span>
+                  <div class="file-actions">
+                    <button class="btn btn-secondary" onclick="viewFile('${f.id}', '${f.mimeType}', '${f.name}')">View</button>
+                    <button class="btn" onclick="downloadFile('${f.id}', '${f.name}')">Download</button>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* --- DECK 2: SUB-DECK 2 (IRS SCORECARDS) --- */
+    async function loadIrsScorecards() {
+      const loading = document.getElementById("loadingIndicatorIrs");
+      loading.classList.remove("hidden");
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "getIrsScorecards", sessionToken: session.token })
+        }).then(r => r.json());
+
+        loading.classList.add("hidden");
+
+        if (!res.success) {
+          document.getElementById("irsContainer").innerHTML = `<div class="card" style="color:red;">Error: ${res.error}</div>`;
+          return;
+        }
+
+        rawIrsData = res.data || [];
+        populateIrsFilters();
+        renderFilteredIrsScorecards();
+      } catch (err) {
+        loading.classList.add("hidden");
+        document.getElementById("irsContainer").innerHTML = `<div class="card" style="color:red;">Failed to retrieve IRS Scorecards: ${err.message}</div>`;
+      }
+    }
+
+    function populateIrsFilters() {
+      const select = document.getElementById("filterIrsCycle");
+      select.innerHTML = '<option value="ALL">All Available Cycles (All Time)</option>';
+      rawIrsData.forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d.cycle;
+        opt.textContent = formatAsOfMonthYear(d.cycle);
+        select.appendChild(opt);
+      });
+    }
+
+    function renderFilteredIrsScorecards() {
+      const container = document.getElementById("irsContainer");
+      container.innerHTML = "";
+
+      const selectedCycle = document.getElementById("filterIrsCycle").value;
+      let filtered = rawIrsData;
+
+      if (selectedCycle !== "ALL") {
+        filtered = rawIrsData.filter(d => d.cycle === selectedCycle);
+      } else {
+        filtered = rawIrsData.slice(0, 12);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted);">No IRS scorecards found.</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3 style="margin-top:0; border-bottom: 2px solid var(--border); padding-bottom: 8px;">
+            ${formatAsOfMonthYear(item.cycle)}
+          </h3>
+          <div>
+            ${item.files.map(f => {
+              const isPdf = f.name.toLowerCase().endsWith('.pdf');
+              return `
+                <div class="file-item">
+                  <span>
+                    <span class="file-badge ${isPdf ? 'badge-pdf' : 'badge-html'}">${isPdf ? 'PDF' : 'HTML'}</span>
+                    <strong>${f.name}</strong>
+                  </span>
+                  <div class="file-actions">
+                    <button class="btn btn-secondary" onclick="viewFile('${f.id}', '${f.mimeType}', '${f.name}')">View</button>
+                    <button class="btn" onclick="downloadFile('${f.id}', '${f.name}')">Download</button>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* --- DIRECT EMBED & DOWNLOAD HANDLERS --- */
+    async function viewFile(fileId, mimeType, fileName) {
+      if (fileName.toLowerCase().endsWith(".pdf")) {
+        window.open(`https://drive.google.com/file/d/${fileId}/preview`, "_blank");
+      } else {
+        const newTab = window.open("", "_blank");
+        newTab.document.write("<p style='font-family:sans-serif; color:#666; padding:20px;'>Loading report...</p>");
+        
+        try {
+          const res = await fetch(`${SCRIPT_URL}?fileId=${fileId}`);
+          let htmlContent = await res.text();
+          
+          htmlContent = htmlContent.replace(/src=["'](\.\.\/)*logo\.png["']/gi, `src="${LIVE_LOGO_URL}"`);
+          
+          newTab.document.open();
+          newTab.document.write(htmlContent);
+          newTab.document.close();
+        } catch (err) {
+          newTab.document.body.innerHTML = "<p style='color:red; padding:20px;'>Failed to load report: " + err.message + "</p>";
+        }
+      }
+    }
+
+    async function downloadFile(fileId, fileName) {
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "getFileData", sessionToken: session.token, fileId })
+      }).then(r => r.json());
+
+      if (res.success) {
+        const a = document.createElement("a");
+        a.href = `data:${res.mimeType};base64,${res.base64}`;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } else {
+        alert(res.error || "Unable to download file.");
+      }
+    }
+
+    async function submitComment(monthKey, targetClient) {
+      const input = document.getElementById(`comment-input-${monthKey}`);
+      const text = input ? input.value.trim() : "";
+
+      if (!text) return;
+      if (!targetClient || targetClient === "ALL") {
+        alert("A specific client must be active to post comments.");
+        return;
+      }
+
+      const currentMonth = document.getElementById("filterMonth").value;
+      const currentClient = (session.role === "admin") ? document.getElementById("filterClient").value : null;
+
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ 
+          action: "addComment", 
+          sessionToken: session.token, 
+          monthKey, 
+          clientName: targetClient, 
+          comment: text 
+        })
+      }).then(r => r.json());
+
+      if (res.success) {
+        input.value = "";
+        await loadScorecards(currentMonth, currentClient);
+      } else {
+        alert(res.error || "Failed to post comment.");
+      }
+    }
+
+    function logout() {
+      session = { token: null, role: null, authorName: null };
+      rawScorecardData = [];
+      rawWeeklyData = [];
+      rawIrsData = [];
+      document.getElementById("portalSection").classList.add("hidden");
+      document.getElementById("loginSection").classList.remove("hidden");
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+      document.getElementById("loginStatus").innerHTML = "";
+      switchDeck('client');
+      switchSubDeck('weekly');
+    }
+  </script>
+</body>
+</html>
