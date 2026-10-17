@@ -27,7 +27,7 @@
       box-sizing: border-box;
     }
     .container {
-      max-width: 980px;
+      max-width: 1200px;
       margin: 0 auto;
       flex: 1;
       width: 100%;
@@ -304,7 +304,6 @@
       border-color: var(--primary);
     }
     
-    /* Dedicated Notice Banner Between Filter and Reports */
     .filter-notice-banner {
       padding: 11px 16px;
       background: #f8fafc;
@@ -376,7 +375,6 @@
       color: #42526e;
     }
     
-    /* Login Status & Spinner */
     .status-msg {
       font-size: 13.5px;
       margin-top: 12px;
@@ -416,7 +414,7 @@
 
   <div class="container">
     <!-- Login Panel -->
-    <div id="loginSection" class="card">
+    <div id="loginSection" class="card" style="max-width: 480px; margin: 40px auto;">
       <div class="login-logo-container">
         <img class="login-logo" src="https://lh3.googleusercontent.com/d/1w0dT6Jyu2M5ff_wj3qqNuOl0IqyBYSXL" alt="International Recovery Systems Logo">
       </div>
@@ -501,7 +499,6 @@
           </div>
         </div>
 
-        <!-- Informational banner moved here: after filters, before scorecards -->
         <div id="commentNoticeBanner"></div>
 
         <div id="loadingIndicatorScorecards" class="card hidden" style="text-align: center; color: var(--muted);">
@@ -514,11 +511,12 @@
       <!-- DECK 2: OPERATIONS & INTERNAL (ADMIN ONLY) -->
       <div id="deckContentInternal" class="hidden">
         
-        <!-- Sub-Deck Selector: Weekly vs IRS Scorecards -->
+        <!-- Sub-Deck Selector: Weekly vs IRS Scorecards vs IRS Dashboard -->
         <div class="subdeck-nav-wrapper">
           <div class="subdeck-nav">
             <div class="subdeck-tab active" id="subdeckTabWeekly" onclick="switchSubDeck('weekly')">Weekly Updates</div>
             <div class="subdeck-tab" id="subdeckTabIrs" onclick="switchSubDeck('irs')">IRS Scorecards</div>
+            <div class="subdeck-tab" id="subdeckTabLooker" onclick="switchSubDeck('looker')">IRS Dashboard</div>
           </div>
         </div>
 
@@ -556,6 +554,20 @@
           </div>
 
           <div id="irsContainer"></div>
+        </div>
+
+        <!-- SUB-DECK VIEW 3: IRS DASHBOARD (LOOKER STUDIO EMBED WITH NAV CONTROLS) -->
+        <div id="subdeckContentLooker" class="hidden">
+          <div class="card" style="padding: 8px; border-radius: 8px; overflow: hidden; background: #fff;">
+            <iframe 
+              id="lookerStudioFrame"
+              src="https://lookerstudio.google.com/embed/reporting/92489dfc-5c39-4752-9dec-348333cbb26d?showAddView=true" 
+              frameborder="0" 
+              style="border:0; width: 100%; height: 940px; border-radius: 6px;" 
+              allowfullscreen 
+              sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+            </iframe>
+          </div>
         </div>
 
       </div>
@@ -703,14 +715,19 @@
       activeSubDeck = sub;
       const tabWeekly = document.getElementById("subdeckTabWeekly");
       const tabIrs = document.getElementById("subdeckTabIrs");
+      const tabLooker = document.getElementById("subdeckTabLooker");
+
       const contentWeekly = document.getElementById("subdeckContentWeekly");
       const contentIrs = document.getElementById("subdeckContentIrs");
+      const contentLooker = document.getElementById("subdeckContentLooker");
 
       tabWeekly.classList.toggle("active", sub === 'weekly');
       tabIrs.classList.toggle("active", sub === 'irs');
+      tabLooker.classList.toggle("active", sub === 'looker');
 
       contentWeekly.classList.toggle("hidden", sub !== 'weekly');
       contentIrs.classList.toggle("hidden", sub !== 'irs');
+      contentLooker.classList.toggle("hidden", sub !== 'looker');
     }
 
     /* --- DECK 1: CLIENT SCORECARD LOGIC --- */
@@ -809,7 +826,6 @@
       let totalFilesRendered = 0;
       const canComment = (selectedMonth !== "ALL") && (selectedClient !== "ALL");
 
-      // Place the notice banner right after the filter bar, before reports
       if (session.role === 'admin' && !canComment) {
         noticeBanner.innerHTML = `
           <div class="filter-notice-banner">
